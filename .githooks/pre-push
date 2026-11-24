@@ -1,0 +1,24 @@
+#!/bin/sh
+
+echo "================================"
+echo "Running PRE-PUSH validation"
+echo "================================"
+
+echo "Executing application tests..."
+
+python -m unittest discover -s tests -v
+
+if [ $? -ne 0 ]; then
+
+    echo ""
+    echo "ERROR: Tests failed!"
+    echo "Push rejected."
+
+    exit 1
+fi
+
+echo ""
+echo "All tests passed!"
+echo "Push is allowed."
+
+exit 0
