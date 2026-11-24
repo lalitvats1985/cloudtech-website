@@ -16,11 +16,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v6
@@ -31,8 +29,19 @@ jobs:
       - name: Upload website files
         uses: actions/upload-pages-artifact@v4
         with:
-          path: '.'
+          path: './'
+          name: github-pages
 
+  deploy:
+    needs: build
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
