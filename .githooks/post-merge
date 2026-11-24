@@ -1,0 +1,20 @@
+#!/bin/sh
+
+echo "================================"
+echo "POST-MERGE HOOK EXECUTED"
+echo "================================"
+
+echo "Merge completed successfully!"
+
+echo "Running application tests..."
+
+python -m unittest discover -s tests -v
+
+if [ $? -ne 0 ]; then
+    echo "WARNING: Tests failed after merge!"
+    exit 1
+fi
+
+echo "Post-merge operations completed!"
+
+exit 0
